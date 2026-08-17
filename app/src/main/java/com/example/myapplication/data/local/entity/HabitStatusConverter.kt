@@ -9,6 +9,7 @@ class HabitStatusConverter {
        return value.name
     }
 
+    @TypeConverter
     fun toHabitStatus(value: String): HabitStatus {
         return HabitStatus.valueOf(value)
     }

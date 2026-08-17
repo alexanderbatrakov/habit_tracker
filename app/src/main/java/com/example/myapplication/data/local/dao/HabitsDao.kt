@@ -6,13 +6,16 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.myapplication.data.local.entity.HabitEntity
-
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface HabitsDao {
 
     @Insert
-    suspend fun insert(habitEntity: HabitEntity)
+    suspend fun insert(habitEntity: HabitEntity): Long
+
+    @Query("SELECT * FROM habits_entity")
+    fun observeAll(): Flow<List<HabitEntity>>
 
     @Query("SELECT * FROM habits_entity")
     suspend fun getAll(): List<HabitEntity>

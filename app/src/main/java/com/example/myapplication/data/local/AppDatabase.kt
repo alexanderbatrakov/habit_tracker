@@ -14,7 +14,8 @@ import com.example.myapplication.data.local.entity.HabitStatusConverter
         HabitEntity::class,
         HabitRecordsEntity::class,
     ],
-    version = 1
+    version = 1,
+    exportSchema = false,
 )
 @TypeConverters(HabitStatusConverter::class)
 abstract class AppDatabase: RoomDatabase() {

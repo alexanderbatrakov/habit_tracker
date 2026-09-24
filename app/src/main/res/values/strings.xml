@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">My Application</string>
+
+    <!-- Habits list -->
+    <string name="habits_list_title">Привычки</string>
+    <string name="add_habit_cd">Добавить привычку</string>
+    <string name="habits_list_empty">Список привычек пуст. Нажмите +, чтобы добавить первую.</string>
+    <string name="streak_days">Серия: %1$d дн.</string>
+
+    <!-- Create habit -->
+    <string name="create_habit_title">Новая привычка</string>
+    <string name="back_cd">Назад</string>
+    <string name="habit_name_label">Название</string>
+    <string name="habit_description_label">Описание</string>
+    <string name="habit_status_label">Статус</string>
+    <string name="habit_name_error">Введите название привычки</string>
+    <string name="save">Сохранить</string>
+    <string name="saving">Сохранение…</string>
+
+    <!-- Habit status -->
+    <string name="status_active">Активна</string>
+    <string name="status_paused">Пауза</string>
+    <string name="status_archived">Архив</string>
 </resources>

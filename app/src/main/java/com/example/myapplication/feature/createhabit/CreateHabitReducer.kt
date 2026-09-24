@@ -1,5 +1,6 @@
 package com.example.myapplication.feature.createhabit
 
+import com.example.myapplication.R
 import com.example.myapplication.feature.ReduceResult
 
 object CreateHabitReducer {
@@ -7,7 +8,7 @@ object CreateHabitReducer {
     fun reduce(state: CreateHabitState, intent: CreateHabitIntent): ReduceResult<CreateHabitState, CreateHabitEffect> {
         return when (intent) {
             is CreateHabitIntent.NameChanged -> ReduceResult.just(
-                state.copy(name = intent.value, nameError = null)
+                state.copy(name = intent.value, nameErrorRes = null)
             )
 
             is CreateHabitIntent.DescriptionChanged -> ReduceResult.just(
@@ -20,12 +21,12 @@ object CreateHabitReducer {
 
             CreateHabitIntent.Save -> {
                 if (!state.isNameValid) {
-                    ReduceResult(state.copy(nameError = "Введите название привычки"))
+                    ReduceResult(state.copy(nameErrorRes = R.string.habit_name_error))
                 } else if (state.isSaving) {
                     ReduceResult.just(state)
                 } else {
                     ReduceResult(
-                        state = state.copy(isSaving = true, nameError = null),
+                        state = state.copy(isSaving = true, nameErrorRes = null),
                         effect = CreateHabitEffect.SaveRequested(
                             name = state.name.trim(),
                             description = state.description.trim(),

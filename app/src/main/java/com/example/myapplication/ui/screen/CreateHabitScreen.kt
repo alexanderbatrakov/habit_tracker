@@ -22,8 +22,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import com.example.myapplication.R
+import com.example.myapplication.TestTags
 import com.example.myapplication.data.local.entity.HabitStatus
 import com.example.myapplication.feature.createhabit.CreateHabitIntent
 import com.example.myapplication.feature.createhabit.CreateHabitState
@@ -39,10 +43,10 @@ fun CreateHabitScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Новая привычка") },
+                title = { Text(stringResource(R.string.create_habit_title), modifier = Modifier.testTag(TestTags.CreateHabit.TITLE)) },
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Назад")
+                    IconButton(onClick = onBack, modifier = Modifier.testTag(TestTags.CreateHabit.BACK_BUTTON)) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back_cd))
                     }
                 },
             )
@@ -58,23 +62,30 @@ fun CreateHabitScreen(
             OutlinedTextField(
                 value = state.name,
                 onValueChange = { onIntent(CreateHabitIntent.NameChanged(it)) },
-                label = { Text("Название") },
-                isError = state.nameError != null,
-                supportingText = state.nameError?.let { { Text(it) } },
+                label = { Text(stringResource(R.string.habit_name_label)) },
+                isError = state.nameErrorRes != null,
+                supportingText = state.nameErrorRes?.let { res -> { Text(stringResource(res)) } },
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag(TestTags.CreateHabit.NAME_INPUT),
             )
 
             OutlinedTextField(
                 value = state.description,
                 onValueChange = { onIntent(CreateHabitIntent.DescriptionChanged(it)) },
-                label = { Text("Описание") },
+                label = { Text(stringResource(R.string.habit_description_label)) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(min = 96.dp),
+                    .heightIn(min = 96.dp)
+                    .testTag(TestTags.CreateHabit.DESCRIPTION_INPUT),
             )
 
-            Text("Статус", style = androidx.compose.material3.MaterialTheme.typography.titleSmall)
+            Text(
+                stringResource(R.string.habit_status_label),
+                style = androidx.compose.material3.MaterialTheme.typography.titleSmall,
+                modifier = Modifier.testTag(TestTags.CreateHabit.STATUS_LABEL),
+            )
             StatusSelector(
                 selected = state.status,
                 onSelect = { onIntent(CreateHabitIntent.StatusChanged(it)) },
@@ -85,9 +96,11 @@ fun CreateHabitScreen(
             Button(
                 onClick = { onIntent(CreateHabitIntent.Save) },
                 enabled = state.canSave,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag(TestTags.CreateHabit.SAVE_BUTTON),
             ) {
-                Text(if (state.isSaving) "Сохранение…" else "Сохранить")
+                Text(if (state.isSaving) stringResource(R.string.saving) else stringResource(R.string.save))
             }
         }
     }
@@ -109,11 +122,13 @@ private fun StatusSelector(
                 selected = status == selected,
                 onClick = { onSelect(status) },
                 label = { Text(status.displayName()) },
-                modifier = Modifier.selectable(
-                    selected = status == selected,
-                    role = Role.RadioButton,
-                    onClick = { onSelect(status) },
-                ),
+                modifier = Modifier
+                    .selectable(
+                        selected = status == selected,
+                        role = Role.RadioButton,
+                        onClick = { onSelect(status) },
+                    )
+                    .testTag(TestTags.CreateHabit.statusChip(status)),
             )
         }
     }

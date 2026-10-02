@@ -1,0 +1,15 @@
+assembleDebug {
+    title = "assembleDebug (incremental)"
+    tasks = ["assembleDebug"]
+}
+
+cleanAssembleDebug {
+    title = "clean + assembleDebug (cold build)"
+    tasks = ["clean", "assembleDebug"]
+    cleanup-tasks = ["clean"]
+}
+
+unitTests {
+    title = "testDebugUnitTest"
+    tasks = ["testDebugUnitTest"]
+}

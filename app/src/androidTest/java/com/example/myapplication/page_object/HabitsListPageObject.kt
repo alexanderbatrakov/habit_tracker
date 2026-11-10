@@ -1,8 +1,8 @@
 package com.example.myapplication.page_object
 
 import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
-import com.example.myapplication.R
-import com.example.myapplication.TestTags
+import com.example.myapplication.feature.habitslist.R
+import com.example.myapplication.core.designsystem.TestTags
 import com.example.myapplication.util.asString
 import io.github.kakaocup.compose.node.element.ComposeScreen
 import io.github.kakaocup.compose.node.element.KNode

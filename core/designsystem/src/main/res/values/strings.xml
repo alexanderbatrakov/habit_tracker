@@ -1,0 +1,14 @@
+<resources>
+    <string name="back_cd">Назад</string>
+    <string name="habit_name_label">Название</string>
+    <string name="habit_description_label">Описание</string>
+    <string name="habit_status_label">Статус</string>
+    <string name="habit_name_error">Введите название привычки</string>
+    <string name="save">Сохранить</string>
+    <string name="saving">Сохранение…</string>
+    <string name="retry">Повторить</string>
+    <string name="streak_days">Серия: %1$d дн.</string>
+    <string name="status_active">Активна</string>
+    <string name="status_paused">Пауза</string>
+    <string name="status_archived">Архив</string>
+</resources>

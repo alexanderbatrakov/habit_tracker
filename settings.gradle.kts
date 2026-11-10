@@ -21,3 +21,14 @@ dependencyResolutionManagement {
 
 rootProject.name = "My Application"
 include(":app")
+include(":core:common")
+include(":core:domain")
+include(":core:database")
+include(":core:network")
+include(":core:data")
+include(":core:designsystem")
+include(":feature:habitslist")
+include(":feature:createhabit")
+include(":feature:edithabit")
+include(":feature:habitdetail")
+include(":feature:exercisecatalog")

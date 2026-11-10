@@ -1,0 +1,10 @@
+<resources>
+    <string name="habit_detail_title">Привычка</string>
+    <string name="edit_habit">Редактировать</string>
+    <string name="habit_no_description">Нет описания</string>
+    <string name="delete_habit">Удалить привычку</string>
+    <string name="delete_habit_confirm_title">Удалить привычку?</string>
+    <string name="delete_habit_confirm_text">«%1$s» и вся её история будут удалены.</string>
+    <string name="delete">Удалить</string>
+    <string name="cancel">Отмена</string>
+</resources>

@@ -5,6 +5,8 @@ import com.example.myapplication.page_object.HabitsListPageObject
 import com.kaspersky.components.composesupport.config.withComposeSupport
 import com.kaspersky.kaspresso.kaspresso.Kaspresso
 import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
+import kotlinx.coroutines.runBlocking
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -12,6 +14,12 @@ class EmptyScreenTests : TestCase(Kaspresso.Builder.withComposeSupport()) {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
+
+    @Before
+    fun clearDatabase() {
+        val app = composeTestRule.activity.application as HabitTrackerApp
+        runBlocking { app.appComponent.database().clearAllTables() }
+    }
 
     @Test
     fun emptyMessageIsDisplayed() = run {

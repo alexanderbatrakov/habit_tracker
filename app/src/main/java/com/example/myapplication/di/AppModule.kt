@@ -2,12 +2,20 @@ package com.example.myapplication.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.myapplication.data.local.AppDatabase
-import com.example.myapplication.data.local.dao.HabitRecordsDao
-import com.example.myapplication.data.local.dao.HabitsDao
+import com.example.myapplication.BuildConfig
+import com.example.myapplication.core.database.AppDatabase
+import com.example.myapplication.core.database.dao.HabitRecordsDao
+import com.example.myapplication.core.database.dao.HabitsDao
+import com.example.myapplication.core.network.wger.WgerApi
 import com.example.myapplication.domain.TimeProvider
 import dagger.Module
 import dagger.Provides
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -34,4 +42,35 @@ object AppModule {
     fun provideTimeProvider(): TimeProvider = object : TimeProvider {
         override fun nowMillis(): Long = System.currentTimeMillis()
     }
+
+    @Provides
+    @Singleton
+    fun provideJson(): Json = Json {
+        ignoreUnknownKeys = true
+        coerceInputValues = true
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
+        .apply {
+            if (BuildConfig.DEBUG) {
+                addInterceptor(
+                    HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
+                )
+            }
+        }
+        .build()
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(client: OkHttpClient, json: Json): Retrofit = Retrofit.Builder()
+        .baseUrl("https://wger.de/")
+        .client(client)
+        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+        .build()
+
+    @Provides
+    @Singleton
+    fun provideWgerApi(retrofit: Retrofit): WgerApi = retrofit.create(WgerApi::class.java)
 }

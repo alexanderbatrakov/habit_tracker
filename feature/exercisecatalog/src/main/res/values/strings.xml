@@ -1,0 +1,10 @@
+<resources>
+    <string name="exercise_catalog_title">Каталог упражнений</string>
+    <string name="exercise_catalog_tab">Каталог</string>
+    <string name="exercise_catalog_all">Все</string>
+    <string name="exercise_catalog_empty">Упражнения не найдены</string>
+    <string name="exercise_catalog_error">Не удалось загрузить упражнения. Проверьте подключение к интернету.</string>
+    <string name="exercise_catalog_end">Загружены все упражнения: %1$d</string>
+    <string name="exercise_catalog_load_more_error">Ошибка загрузки. Повторить</string>
+    <string name="create_habit_from_exercise_cd">Создать привычку из упражнения</string>
+</resources>

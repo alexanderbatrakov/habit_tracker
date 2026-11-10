@@ -22,10 +22,13 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.example.myapplication.R
+import com.example.myapplication.TestTags
 import com.example.myapplication.domain.model.HabitWithProgress
 import com.example.myapplication.feature.habitslist.HabitsListState
-import com.example.myapplication.ui.util.displayName
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,10 +38,13 @@ fun HabitsListScreen(
     onToggleDone: (Long) -> Unit,
 ) {
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Привычки") }) },
+        topBar = { TopAppBar(title = { Text(stringResource(R.string.habits_list_title)) }) },
         floatingActionButton = {
-            FloatingActionButton(onClick = onCreateHabitClick) {
-                Icon(Icons.Filled.Add, contentDescription = "Добавить привычку")
+            FloatingActionButton(
+                onClick = onCreateHabitClick,
+                modifier = Modifier.testTag(TestTags.HabitsList.ADD_HABIT_BUTTON),
+            ) {
+                Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.add_habit_cd))
             }
         },
     ) { innerPadding ->
@@ -62,7 +68,7 @@ fun HabitsListScreen(
                         .padding(24.dp),
                     contentAlignment = Alignment.Center,
                 ) {
-                    Text("Список привычек пуст. Нажмите +, чтобы добавить первую.")
+                    Text(stringResource(R.string.habits_list_empty))
                 }
             }
 
@@ -96,7 +102,7 @@ private fun HabitRow(
                     Text(item.habit.description)
                 }
                 Text(
-                    text = "Серия: ${item.streak} дн.",
+                    text = stringResource(R.string.streak_days, item.streak),
                     style = androidx.compose.material3.MaterialTheme.typography.labelMedium,
                 )
             }

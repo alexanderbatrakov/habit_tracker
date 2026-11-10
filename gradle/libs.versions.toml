@@ -12,6 +12,8 @@ ksp = "2.2.10-2.0.2"
 dagger = "2.56.2"
 navigationCompose = "2.8.0"
 coroutines = "1.8.1"
+uiautomator = "2.4.0"
+kaspresso = "1.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -33,6 +35,9 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 dagger = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
 dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
+kaspresso = { group = "com.kaspersky.android-components", name = "kaspresso", version.ref = "kaspresso" }
+kaspresso-compose-support = { group = "com.kaspersky.android-components", name = "kaspresso-compose-support", version.ref = "kaspresso" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

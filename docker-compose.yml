@@ -1,0 +1,30 @@
+services:
+  jenkins:
+    build: docker/jenkins
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - ./:/workspace/repo:ro
+
+  android-agent:
+    build: docker/android-agent
+    restart: unless-stopped
+    depends_on:
+      - jenkins
+    environment:
+      JENKINS_URL: http://jenkins:8080
+      JENKINS_AGENT_NAME: android-agent
+      JENKINS_SECRET: ${JENKINS_SECRET:-}
+      SECRET_FILE: /var/lib/jenkins-ro/agent.secret
+      JENKINS_AGENT_WORKDIR: /home/jenkins
+    volumes:
+      - jenkins_home:/var/lib/jenkins-ro:ro
+      - gradle_cache:/home/jenkins/.gradle
+
+volumes:
+  jenkins_home:
+  gradle_cache:

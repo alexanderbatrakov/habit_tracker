@@ -20,4 +20,12 @@ class HabitsListPageObject(provider: SemanticsNodeInteractionsProvider) :
         habitCreationButton.assertIsDisplayed()
         habitCreationButton.performClick()
     }
+
+    fun assertHabitDisplayed(name: String) {
+        child<KNode> { hasText(name) }.assertIsDisplayed()
+    }
+
+    fun assertHabitDetailsDisplayed(details: String) {
+        child<KNode> { hasText(details) }.assertIsDisplayed()
+    }
 }

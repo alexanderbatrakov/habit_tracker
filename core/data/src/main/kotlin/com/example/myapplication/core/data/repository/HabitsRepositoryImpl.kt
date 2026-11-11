@@ -13,9 +13,12 @@ import com.example.myapplication.domain.model.Habit
 import com.example.myapplication.domain.model.HabitStatus
 import com.example.myapplication.domain.model.HabitWithProgress
 import com.example.myapplication.domain.repository.HabitsRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -35,7 +38,11 @@ class HabitsRepositoryImpl @Inject constructor(
         habitsDao.observeAll().map { entities -> entities.toDomain() }
 
     override fun observeHabitsWithProgress(): Flow<List<HabitWithProgress>> =
-        combine(habitsDao.observeAll(), recordsDao.observeAll()) { habits, records ->
+        combine(
+            habitsDao.observeAll(),
+            recordsDao.observeAll(),
+            dayTick(),
+        ) { habits, records, _ ->
             val today = currentToday()
             habits.map { habit ->
                 val habitRecords = records.filter { it.habitId == habit.id }
@@ -57,7 +64,8 @@ class HabitsRepositoryImpl @Inject constructor(
         combine(
             habitsDao.observeById(id),
             recordsDao.observeForHabit(id),
-        ) { habit, records ->
+            dayTick(),
+        ) { habit, records, _ ->
             if (habit == null) {
                 null
             } else {
@@ -106,14 +114,27 @@ class HabitsRepositoryImpl @Inject constructor(
         val dayStart = today.atStartOfDay(zone).toInstant().toEpochMilli()
         val dayEnd = dayStart + MILLIS_PER_DAY
         if (done) {
-            recordsDao.insert(
-                HabitRecordsEntity(
-                    habitId = habitId,
-                    completedAt = timeProvider.nowMillis(),
+            val existing = recordsDao.getForHabitOnDay(habitId, dayStart, dayEnd)
+            if (existing.isEmpty()) {
+                recordsDao.insert(
+                    HabitRecordsEntity(
+                        habitId = habitId,
+                        completedAt = timeProvider.nowMillis(),
+                    )
                 )
-            )
+            }
         } else {
             recordsDao.deleteForHabitOnDay(habitId, dayStart, dayEnd)
+        }
+    }
+
+    private fun dayTick(): Flow<Unit> = flow {
+        while (true) {
+            emit(Unit)
+            val now = Instant.ofEpochMilli(timeProvider.nowMillis()).atZone(zone)
+            val nextMidnight = now.toLocalDate().plusDays(1).atStartOfDay(zone)
+            val millisLeft = Duration.between(now, nextMidnight).toMillis().coerceAtLeast(1L)
+            delay(millisLeft)
         }
     }
 

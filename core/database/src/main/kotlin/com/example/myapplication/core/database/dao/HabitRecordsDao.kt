@@ -32,6 +32,12 @@ interface HabitRecordsDao {
     )
     suspend fun deleteForHabitOnDay(habitId: Long, dayStart: Long, dayEnd: Long)
 
+    @Query(
+        "SELECT * FROM habits_records_entity " +
+            "WHERE habitId = :habitId AND completedAt >= :dayStart AND completedAt < :dayEnd"
+    )
+    suspend fun getForHabitOnDay(habitId: Long, dayStart: Long, dayEnd: Long): List<HabitRecordsEntity>
+
     @Delete
     suspend fun delete(habit: HabitRecordsEntity)
 

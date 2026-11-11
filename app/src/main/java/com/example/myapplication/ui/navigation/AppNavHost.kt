@@ -2,7 +2,7 @@ package com.example.myapplication.ui.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -83,7 +83,7 @@ private fun AppBottomBar(
         NavigationBarItem(
             selected = currentRoute == Destinations.HABITS_LIST,
             onClick = { navController.navigateTopLevel(Destinations.HABITS_LIST) },
-            icon = { Icon(Icons.Filled.List, contentDescription = null) },
+            icon = { Icon(Icons.AutoMirrored.Filled.List, contentDescription = null) },
             label = { Text(stringResource(HabitsR.string.habits_list_title)) },
             modifier = Modifier.testTag(TestTags.BottomBar.HABITS_TAB),
         )

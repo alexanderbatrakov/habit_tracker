@@ -38,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.core.designsystem.R as DsR
 import com.example.myapplication.feature.exercisecatalog.R
@@ -172,7 +173,9 @@ private fun ExerciseRow(
             .clickable(onClick = onClick)
             .testTag(TestTags.ExerciseCatalog.exerciseItem(exercise.id)),
         headlineContent = { Text(exercise.name) },
-        supportingContent = details.takeIf { it.isNotBlank() }?.let { { Text(it, maxLines = 1) } },
+        supportingContent = details.takeIf { it.isNotBlank() }?.let {
+            { Text(it, maxLines = 1, overflow = TextOverflow.Ellipsis) }
+        },
         trailingContent = {
             IconButton(onClick = onClick) {
                 Icon(
